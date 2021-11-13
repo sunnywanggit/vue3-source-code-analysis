@@ -1,3 +1,4 @@
+<!-- Vue3.0 基础 API 基础用法讲解 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +29,7 @@
         // 观察者模式得基于“类”，“类”在TS里面进行推断的时候无法推断 this属性，所以并不是很好用
         // vue3 响应式使用的是proxy -> 数据更新了， 通知的effect “函数了”, vue3 采用函数式的方式进行编写，所以使用 effect 函数。
 
-        // 2.effect 注意：effect 是@vue/reactivity 这个模块里面的，没有暴露出来给我们使用
+        // 2.effect 注意：effect 是@vue/reactivity 这个模块里面的，但是并没有暴露出来给我们使用
 
         effect(()=>{ // 副作用函数,默认会先执行一次 ， 如果依赖的数据发生变化了 会再次执行
             app.innerHTML = state.name + state.age;

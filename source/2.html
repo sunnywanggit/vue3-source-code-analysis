@@ -1,3 +1,4 @@
+<!-- vue3.0 基础 api 学习 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +13,9 @@
     <script src="./node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
 
     <script>
-        const {reactive,effect,readonly,shallowReactive,shallowReadonly,ref,shallowRef,toRef,toRefs} = VueReactivity;
+        const { reactive,effect,readonly,shallowReactive,shallowReadonly,ref,shallowRef,toRef,toRefs } = VueReactivity;
         const r = reactive({name:'zf',age:12,address:'xxx'})
+        console.log(r)
         console.log(toRef(r,'name'))
         // reactive 只能用于对象类型 来进行检测
         console.log(reactive([]))

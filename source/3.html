@@ -26,28 +26,29 @@
             }
             return { state, fn };
         }
+
         let App = {
             props: {
                 a: Number
             },
             setup(props, context) { // 启动方法， beforeCreate
                 let { state, fn } = useCounter();
-                
+
                 return {
                     state,
                     fn
                 }
             },
             // 如果用户写的是模板
-            render: (proxy) => { // render函数  
+            render: (proxy) => { // render函数
                 // 要么写模板  jsx 语法 -》 h()
                 // h(标签，属性)
                 // h(标签，{}，值)
                 // h(标签,值)
-                // h(标签,[值,值])  
+                // h(标签,[值,值])
                 // h(标签,null,值，值)
-                // jsx => 
-             
+                // jsx =>
+
                 return h('div',null, h('span',{},'div'))
             }
         }
