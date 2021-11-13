@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 原生的vue3 -->
+    <div id="app"></div>
+    <script src="./node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+
+    <script>
+
+      // 总结： 我们在给对象添加响应式的时候用的最常用的是reactive api
+
+      const { reactive,effect,readonly,shallowReactive,shallowReadonly } = VueReactivity;
+
+        // vue2中的响应式是不能自己控制的 , vue3 给了一个api 可以自动转换响应式
+        let state = reactive({ name: 'dachui', age: 18 })
+
+        // 1.我们可以打印出来看一下
+        console.log('state', state);
+
+        // 返回了一个响应式对象Proxy，vue3 的好处是不需要对对象的属性进行重写，
+        // vue2 的响应式原理，数据变化需要重新执行 watcher，更新视图，之所以叫 watcher 因为里面用到了一个设计模式”观察者模式“
+        // 观察者模式得基于“类”，“类”在TS里面进行推断的时候无法推断 this属性，所以并不是很好用
+        // vue3 响应式使用的是proxy -> 数据更新了， 通知的effect “函数了”, vue3 采用函数式的方式进行编写，所以使用 effect 函数。
+
+        // 2.effect 注意：effect 是@vue/reactivity 这个模块里面的，没有暴露出来给我们使用
+
+        effect(()=>{ // 副作用函数,默认会先执行一次 ， 如果依赖的数据发生变化了 会再次执行
+            app.innerHTML = state.name + state.age;
+        })
+
+        setTimeout(() => {
+            state.name = 'wangzhen'
+        }, 1000);
+
+        // vue3 的核心 api 就这两个，一个叫 reactive 一个叫 effect,在 vue3 中每个组件和 computed 都有一个 effect 方法，
+        // 方便数据变化之后进行更新
+
+        // 3.readonly 只读的，从字面意思理解就知道，我们只能读这个数据，但是不能对其进行修改
+
+        let state2 = readonly({ name: 'dachui', age: 18 })
+        // 如果对其进行更改，发现会报错
+        state2.name = 'wangzhen';
+        // readonly 我们可以发现，readonly 定义了一个不可变对象
+
+        // 4.shallowReactive 只会对对象的第一层进行代理，避免不必要的递归
+        let state3 = reactive({ name: 'dachui', age: 18, arr: [1,2,3] })
+        console.log('state3.a', state3.arr);
+        let state4 = shallowReactive({ name: 'dachui', age: 18, arr: [1,2,3] })
+        console.log('state4.a', state4.arr);
+
+        // 5.shallowReadonly
+        // 从上面可以知道 shallowReadonly 只对对象的第一层进行代理，并且让其只读
+        let state5 = shallowReadonly({ name: 'dachui', age: 18, arr: [1,2,3] })
+        state5.name = 'wangzhen';
+        // 因为是浅只读，所以我们可以给深层次的对象添加数据
+        state5.arr.push(100)
+        console.log('state5', state5);
+
+
+        // 加餐
+        // effect 默认数据更新了 会重新执行回调函数，如果自定义了scheduler 属性，可以实现更新时调用自定义的scheduler
+        // effect(()=>{
+        //     app.innerHTML = r1.name
+        // },{scheduler:(...args)=>{
+        //     // console.log('有变化',args)
+        //     args[0]()
+        // }});
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    function WangZhen(){
+
+    }
+    let fn = new WangZhen;
+    // let map = new Map();
+    let map = new WeakMap();
+    map.set(fn,124)
+
+    // 释放内存，fn 会不会被回收？
+    fn = null;
+
+    // JS 里面有有一种垃圾回收机制叫“引用标记”,只要有引用就不会被销毁
+
+
+    // WeakMap 如果变量被清空了，它会自动把变量给回收掉,不会再占用内存了，不会导致内存泄露
+
+</script>
+</body>
+</html>
